@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+    <script src="./js/vue.js" defer></script>
+    <script src="./js/provider.js" defer></script>
+    <title>cw1_3145 - Provider</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div id="header-template">
+          <page-header></page-header>
+        </div>
+      </header>
+      <aside>
+          <div id="filter" v-show="false"></div>
+      </aside>
+      <main>
+        <form id="provider-add" @submit="addClass">
+          <div>
+            <label for="topic">Topic</label>
+            <input
+              id="topic"
+              required
+              type="text"
+              name="topic"
+              value="topic"
+              v-model="topic"
+            />
+          </div>
+          <div>
+            <label for="location">Location</label>
+            <input
+              id="location"
+              required
+              type="text"
+              name="location"
+              value="location"
+              v-model="location"
+            />
+          </div>
+          <div>
+            <label for="price">Price</label>
+            <input
+              id="price"
+              required
+              type="number"
+              name="price"
+              v-model="price"
+            />
+          </div>
+          <div>
+            <label for="about">About</label>
+            <textarea
+              id="about"
+              name="about"
+              value="about"
+              v-model="about"
+              placeholder="Time and length, i.e., when is the class/activity (such as 4pm every weekdays) and how long it is (such as 1 hour)."
+            ></textarea>
+          </div>
+          <button type="submit">Add Class or Activity</button>
+        </form>
+        <div id="providerView">
+             <div v-for="(course, index) in filterCoursesByEmail" class="course" :id="index" :ref="index">
+                 <li v-for="(name, value) in course" >{{value}}: {{name}}</li>
+                 <button @click="editClass">Edit</button><button @click="removeClass">Remove</button>
+             </div>
+        </div>
+        <div id="course-loop" v-show="false"></div>
+      </main>
+    </div>
+  </body>
+</html>
