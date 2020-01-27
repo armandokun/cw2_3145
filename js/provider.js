@@ -12,10 +12,10 @@ var courses = [
     { topic: "piano", location: "golders green", price: 140 },
     { topic: "sports club", location: "golders green", price: 200 }
   ];
-  
+
   //creates localStorage version of the courses array
-  !localStorage.getItem("courses") ? localStorage.setItem("courses", JSON.stringify(courses)) : 
-  courses = JSON.parse(localStorage.getItem("courses"))
+  !localStorage.getItem("courses") ? localStorage.setItem("courses", JSON.stringify(courses)) :
+  courses = JSON.parse(localStorage.getItem("courses"));
 
 // Provider Preview Instance
 var providerApp = new Vue({
@@ -23,7 +23,7 @@ var providerApp = new Vue({
     data: {
       topic: '',
       location: '',
-      price: null,
+      price: Number,
       about: ''
     },
     methods: {
@@ -42,7 +42,7 @@ var providerApp = new Vue({
       }
     }
   });
-  
+
   var providerView = new Vue({
     el: '#providerView',
     data: {
@@ -64,10 +64,9 @@ var providerApp = new Vue({
         },
         removeClass: function (index) {
             this.filterCoursesByEmail.splice(index, 1);
-            return;
         },
         editClass: function () {
 
         }
       }
-  })
+  });

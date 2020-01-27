@@ -30,7 +30,7 @@ var userForm = new Vue({
           var index = users.findIndex(obj => obj.email === existingEmail && obj.password === existingPassword);
           users[index].on = true;
           localStorage.setItem("users", JSON.stringify(users));
-          return;
+
         } else
           alert("The email or password is incorrect");
       }
@@ -56,4 +56,4 @@ var userForm = new Vue({
       }
     }
   }
-})
+});

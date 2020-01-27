@@ -1,142 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
     <script src="./js/vue.js" defer></script>
     <script src="./js/userForm.js" defer></script>
     <title>cw1_3145</title>
-  </head>
-  <body>
-    <div class="container">
-      <header>
+</head>
+<body>
+<div class="container">
+    <header>
         <div id="header-template">
-          <page-header></page-header>
+            <page-header></page-header>
         </div>
         <div id="userForm">
-          <div id="popup1" class="overlay">
-            <div class="popup">
-              <h2>Sign Up</h2>
-              <a class="close" href="#">&times;</a>
-              <div class="content">
-                <form id="signup" @submit="signUp" action="/#popup2">
-                  <p>type:</p>
-                  <div>
-                    <input
-                      id="user"
-                      type="radio"
-                      name="userType"
-                      value="user"
-                      v-model="userType"
-                    />
-                    <label for="user">User</label>
-                  </div>
+            <div id="popup1" class="overlay">
+                <div class="popup">
+                    <h2>Sign Up</h2>
+                    <a class="close" href="#">&times;</a>
+                    <div class="content">
+                        <form id="signup" @submit="signUp" action="/#popup2">
+                            <p>type:</p>
+                            <div>
+                                <input
+                                        id="user"
+                                        type="radio"
+                                        name="userType"
+                                        value="user"
+                                        v-model="userType"
+                                />
+                                <label for="user">User</label>
+                            </div>
 
-                  <div>
-                    <input
-                      id="provider"
-                      type="radio"
-                      name="userType"
-                      value="provider"
-                      v-model="userType"
-                    />
-                    <label for="provider">Provider</label>
-                  </div>
-                  <br /><br />
-                  <label for="email">email: </label>
-                  <input
-                    required
-                    type="email"
-                    id="SignUpEmail"
-                    v-model="email"
-                  />
-                  <br /><br />
-                  <label for="password">password: </label>
-                  <input
-                    required
-                    type="password"
-                    id="SignUppassword"
-                    v-model="password"
-                  />
-                  <br /><br />
-                  <button type="submit">submit</button>
-                </form>
-              </div>
+                            <div>
+                                <input
+                                        id="provider"
+                                        type="radio"
+                                        name="userType"
+                                        value="provider"
+                                        v-model="userType"
+                                />
+                                <label for="provider">Provider</label>
+                            </div>
+                            <br/><br/>
+                            <label for="email">email: </label>
+                            <input
+                                    required
+                                    type="email"
+                                    id="SignUpEmail"
+                                    v-model="email"
+                            />
+                            <br/><br/>
+                            <label for="password">password: </label>
+                            <input
+                                    required
+                                    type="password"
+                                    id="SignUppassword"
+                                    v-model="password"
+                            />
+                            <br/><br/>
+                            <button type="submit">submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div id="popup2" class="overlay">
-            <div class="popup">
-              <h2>Log In</h2>
-              <a class="close" href="#">&times;</a>
-              <div class="content">
-                <form id="login" @submit="logIn" action="/index.html">
-                  <label for="email">email: </label>
-                  <input required type="email" id="email" v-model="email" />
-                  <br /><br />
-                  <label for="password">password: </label>
-                  <input
-                    required
-                    type="password"
-                    id="password"
-                    v-model="password"
-                  />
-                  <br /><br />
-                  <button type="submit">submit</button>
-                </form>
-              </div>
+            <div id="popup2" class="overlay">
+                <div class="popup">
+                    <h2>Log In</h2>
+                    <a class="close" href="#">&times;</a>
+                    <div class="content">
+                        <form id="login" @submit="logIn" action="/index.html">
+                            <label for="email">email: </label>
+                            <input required type="email" id="email" v-model="email"/>
+                            <br/><br/>
+                            <label for="password">password: </label>
+                            <input
+                                    required
+                                    type="password"
+                                    id="password"
+                                    v-model="password"
+                            />
+                            <br/><br/>
+                            <button type="submit">submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </header>
-      <aside>
-        <div id="filter">
-          <h1>Filters</h1>
-          <select multiple v-model="selectedTopic">
-            <option v-for="topic in topics">
-              {{topic}}
-            </option>
-          </select>
-          <p>Selected topics: {{selectedTopic}}</p>
-          <br />
-          <select multiple v-model="selectedPrice">
-            <option v-for="price in prices">{{price}}</option>
-          </select>
-          <p>Selected price: {{selectedPrice}}</p>
+    </header>
+    <aside>
+        <div id="searchFilter">
+
+            <!-- search -->
+            Search <input v-model='term'><br><br>
+            <!-- sort -->
+            <select v-model="selected">
+                <option disabled>Sort By:</option>
+                <optgroup label="Topic">
+                    <option>A - Z</option>
+                    <option>Z - A</option>
+                </optgroup>
+                <optgroup label="Price">
+                    <option>Low - High</option>
+                    <option>High - Low</option>
+                </optgroup>
+                <optgroup label="Reviews">
+                    <option>5 & Others</option>
+                </optgroup>
+            </select>
+            <!-- filter -->
+            <select multiple v-model='userTopics'>
+                <option v-for='topic in topics'>
+                    {{topic}}
+                </option>
+            </select>
+
+            <select multiple v-model="userPrices">
+                <option v-for="price in prices">
+                    {{price}}
+                </option>
+            </select>
+            <button v-on:click='reset'>reset</button>
         </div>
-      </aside>
-      <main>
-        <div id="course-loop">
-          <button v-on:click="reset">reset</button>
-          <input placeholder="Search" type="text" v-model="search" />
-          <select v-model="selected">
-            <option disabled>Sort By:</option>
-            <optgroup label="Topic">
-              <option>A - Z</option>
-              <option>Z - A</option>
-            </optgroup>
-            <optgroup label="Price">
-              <option>Low - High</option>
-              <option>High - Low</option>
-            </optgroup>
-            <optgroup label="Reviews">
-              <option>5 & Others</option>
-            </optgroup>
-          </select>
-          <div id="courseList">
-            <h1>Course list</h1>
-            <div
-              v-for="(course, index) in sortedArray"
-              class="course"
-              :id="index"
-            >
-              <li v-for="(value, name) in course">{{name}}: {{value}}</li>
+    </aside>
+    <main>
+        <div id="results">
+            <!-- results -->
+            <div v-for='course in results' class='course'>
+                <ul>
+                    <li v-for='(value, key) in course'>
+                        {{key}}: {{value}}
+                    </li>
+                </ul>
             </div>
-          </div>
         </div>
-      </main>
-    </div>
-  </body>
+    </main>
+</div>
+</body>
 </html>
