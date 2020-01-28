@@ -103,7 +103,9 @@ let searchApp = new Vue({
             this.userTopics = [];
             this.userPrices = [];
             this.selected = 'A - Z';
-            this.term = ''
+            this.term = '';
+
+            resultsFromFilter.results = this.results;
         }
     },
     computed: {
@@ -115,17 +117,17 @@ let searchApp = new Vue({
             return [...new Set(this.results.map(x => x.price))]
         },
         results: function () {
-            return this.coursesFromArray.filter(course => {
-                // search condition
-                var searchCourse = course.topic.includes(this.term);
-                // filter condition
-                var filterCourse = this.userTopics.length === 0 ||
-                    this.userTopics.includes(course.topic) ||
-                    this.userPrices.length === 0 ||
-                    this.userPrices.includes(course.price);
-                // combine the result
-                return searchCourse && filterCourse;
-            })
+                return this.coursesFromArray.filter(course => {
+                    // search condition
+                    var searchCourse = course.topic.includes(this.term);
+                    // filter condition
+                    var filterCourse = this.userTopics.length === 0 ||
+                        this.userTopics.includes(course.topic) ||
+                        this.userPrices.length === 0 ||
+                        this.userPrices.includes(course.price);
+                    // combine the result
+                    return searchCourse && filterCourse;
+                })
         },
 
         //sorts through the search and filter that are above
@@ -167,8 +169,13 @@ let resultsFromFilter = new Vue({
     }
 });
 
-// Refreshes resultsFromFilter after filter
+// Refreshes resultsFromFilter after sorting initiated
 searchApp.$watch('sortedArray', (val) => {
+    resultsFromFilter.results = val;
+});
+
+// Refreshes resultsFromFilter after filter and search are initiated
+searchApp.$watch('results', (val) => {
     resultsFromFilter.results = val;
 });
 
