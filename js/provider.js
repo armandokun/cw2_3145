@@ -24,7 +24,8 @@ var providerApp = new Vue({
         topic: '',
         location: '',
         price: Number,
-        about: ''
+        about: '',
+        isEditing: false
     },
     methods: {
         addClass: function () {
@@ -58,7 +59,8 @@ var providerApp = new Vue({
 var providerView = new Vue({
     el: '#providerView',
     data: {
-        courses: courses
+        courses: courses,
+        isEditing: providerApp.isEditing
     },
     computed: {
         filterCoursesByEmail: function () {
@@ -72,8 +74,7 @@ var providerView = new Vue({
             }
         },
         removeActivity: (index) => {
-            let courseId = index.path[1].id;
-
+            let courseId = index.path[3].id;
             let courses = JSON.parse(localStorage.getItem("courses"));
 
             // removes a course from the list
@@ -83,12 +84,23 @@ var providerView = new Vue({
             localStorage.setItem("courses", JSON.stringify(courses));
 
             // deletes div element of the course
-            index.path[1].remove();
+            index.path[3].remove();
 
             console.log("ID: " + courseId +  " has been removed");
 
         },
-        editActivity: () => {
+        editActivity: function(index) {
+
+            this.isEditing = true;
+
+        },
+        save: function(index) {
+            this.isEditing = false;
+
+            let courseId = index.path[3].id;
+            let courses = JSON.parse(localStorage.getItem("courses"));
+
+            console.log(JSON.stringify(courses));
         }
     }
 });

@@ -1,80 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
     <script src="./js/vue.js" defer></script>
     <script src="./js/provider.js" defer></script>
     <title>cw1_3145 - Provider</title>
-  </head>
+</head>
 
-  <body>
-    <div class="container">
-      <header>
+<body>
+<div class="container">
+    <header>
         <div id="header-template">
-          <page-header></page-header>
+            <page-header></page-header>
         </div>
-      </header>
-      <aside>
-          <div id="filter" v-show="false"></div>
-      </aside>
-      <main>
+    </header>
+    <aside>
+        <div id="filter" v-show="false"></div>
+    </aside>
+    <main>
         <form id="provider-add" @submit="addClass">
-          <div>
-            <label for="topic">Topic</label>
-            <input
-              id="topic"
-              required
-              type="text"
-              name="topic"
-              value="topic"
-              v-model="topic"
-            />
-          </div>
-          <div>
-            <label for="location">Location</label>
-            <input
-              id="location"
-              required
-              type="text"
-              name="location"
-              value="location"
-              v-model="location"
-            />
-          </div>
-          <div>
-            <label for="price">Price</label>
-            <input
-              id="price"
-              required
-              type="number"
-              name="price"
-              v-model="price"
-            />
-          </div>
-          <div>
-            <label for="about">About</label>
-            <textarea
-              id="about"
-              name="about"
-              value="about"
-              v-model="about"
-              placeholder="Time and length, i.e., when is the class/activity (such as 4pm every weekdays) and how long it is (such as 1 hour)."
-            ></textarea>
-          </div>
-          <button type="submit">Add Class or Activity</button>
+            <div>
+                <label for="topic">Topic</label>
+                <input
+                        id="topic"
+                        required
+                        type="text"
+                        name="topic"
+                        value="topic"
+                        v-model="topic"
+                />
+            </div>
+            <div>
+                <label for="location">Location</label>
+                <input
+                        id="location"
+                        required
+                        type="text"
+                        name="location"
+                        value="location"
+                        v-model="location"
+                />
+            </div>
+            <div>
+                <label for="price">Price</label>
+                <input
+                        id="price"
+                        required
+                        type="number"
+                        name="price"
+                        v-model="price"
+                />
+            </div>
+            <div>
+                <label for="about">About</label>
+                <textarea
+                        id="about"
+                        name="about"
+                        value="about"
+                        v-model="about"
+                        placeholder="Time and length, i.e., when is the class/activity (such as 4pm every weekdays) and how long it is (such as 1 hour)."
+                ></textarea>
+            </div>
+            <button type="submit">Add Class or Activity</button>
         </form>
         <div id="providerView">
-             <div v-for="(course, index) in filterCoursesByEmail" class="course" :id="index" :ref="index" v-if="filterCoursesByEmail[index] !== undefined">
-                 <li v-for="(name, value) in course" >{{value}}: {{name}}</li>
-                 <button @click="editActivity">Edit</button><button @click="removeActivity">Remove</button>
-             </div>
+            <div v-for="(course, index) in filterCoursesByEmail" class="course" :id="index" :ref="index"
+                 v-if="filterCoursesByEmail[index] !== undefined">
+                <form @submit.prevent>
+                    <div>
+                        <label>{{Object.keys(course)[0]}}</label>
+                        <input :value="course.topic" :disabled="!isEditing" :class="{view: !isEditing}">
+                    </div>
+                    <div>
+                        <label>{{Object.keys(course)[1]}}</label>
+                        <input v-model="course.location" :disabled="!isEditing" :class="{view: !isEditing}">
+                    </div>
+                    <div>
+                        <label>{{Object.keys(course)[2]}}</label>
+                        <input v-model="course.price" :disabled="!isEditing" :class="{view: !isEditing}">
+                    </div>
+                    <div>
+                        <label>{{Object.keys(course)[3]}}</label>
+                        <input v-model="course.about" :disabled="!isEditing" :class="{view: !isEditing}">
+                    </div>
+                    <div>
+                        <button v-if="!isEditing" @click="editActivity">Edit</button>
+                        <button v-if="isEditing" @click="save">Save</button>
+                        <button @click="removeActivity">Remove</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div id="course-loop" v-show="false"></div>
-      </main>
-    </div>
-  </body>
+    </main>
+</div>
+</body>
 </html>
