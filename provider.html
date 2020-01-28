@@ -68,9 +68,9 @@
           <button type="submit">Add Class or Activity</button>
         </form>
         <div id="providerView">
-             <div v-for="(course, index) in filterCoursesByEmail" class="course" :id="index" :ref="index">
+             <div v-for="(course, index) in filterCoursesByEmail" class="course" :id="index" :ref="index" v-if="filterCoursesByEmail[index] !== undefined">
                  <li v-for="(name, value) in course" >{{value}}: {{name}}</li>
-                 <button @click="editClass">Edit</button><button @click="removeClass">Remove</button>
+                 <button @click="editActivity">Edit</button><button @click="removeActivity">Remove</button>
              </div>
         </div>
         <div id="course-loop" v-show="false"></div>
