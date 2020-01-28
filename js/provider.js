@@ -71,7 +71,22 @@ var providerView = new Vue({
                 return course;
             }
         },
-        removeActivity: () => {
+        removeActivity: (index) => {
+            let courseId = index.path[1].id;
+
+            let courses = JSON.parse(localStorage.getItem("courses"));
+
+            // removes a course from the list
+            courses.splice(courseId, 1);
+
+            // refreshes localstorage
+            localStorage.setItem("courses", JSON.stringify(courses));
+
+            // deletes div element of the course
+            index.path[1].remove();
+
+            console.log("ID: " + courseId +  " has been removed");
+
         },
         editActivity: () => {
         }
