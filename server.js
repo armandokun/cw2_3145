@@ -78,4 +78,5 @@ app.delete('/collections/:collectionName/:email', (req, res, next) => {
 });
 
 // Start the server
-app.listen(3000);
+let port = 3000;
+app.listen(port, console.log(`Server is listening on :${port}`));

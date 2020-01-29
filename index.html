@@ -139,11 +139,11 @@
         </div>
     </main>
     <div id="displayUser">
-    {{user}}
+        <div v-for="user in users">
+            <li v-for="(name, value) in user">{{value}}:{{name}}</li>
+        </div>
     </div>
-    <div id="displayCourses">
-    {{courses}}
-    </div>
+
 </div>
 </body>
 </html>

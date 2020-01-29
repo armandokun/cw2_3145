@@ -1,24 +1,3 @@
-//array for training
-var courses = [
-    {topic: "math", location: "hendon", price: 100},
-    {topic: "math", location: "colindale", price: 80},
-    {topic: "math", location: "brent cross", price: 90},
-    {topic: "math", location: "golders green", price: 120},
-    {topic: "english", location: "hendon", price: 110},
-    {topic: "english", location: "colindale", price: 90},
-    {topic: "english", location: "brent cross", price: 90},
-    {topic: "english", location: "golders green", price: 130},
-    {topic: "piano", location: "hendon", price: 120},
-    {topic: "piano", location: "golders green", price: 140},
-    {topic: "sports club", location: "golders green", price: 200}
-];
-
-//creates localStorage version of the courses array
-if (!localStorage.getItem("courses")) {
-    localStorage.setItem("courses", JSON.stringify(courses))
-} else {
-    courses = JSON.parse(localStorage.getItem("courses"))
-}
 //Header Component
 Vue.component("page-header", {
     template: `
@@ -89,13 +68,29 @@ let headerApp = new Vue({
     el: "#header-template"
 });
 
+const fetchPromiseCourses = fetch("http://localhost:3000/collections/courses", {method: 'GET'});
+
+fetchPromiseCourses
+    .then(response => {
+        return response.json();
+    })
+    .then(response => {
+        // Define data in displayUser Vue Instance
+        searchApp.coursesFromArray = response;
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+    });
+
+
+
 let searchApp = new Vue({
     el: '#searchFilter',
     data: {
         term: '',
         userTopics: [],
         userPrices: [],
-        coursesFromArray: courses,
+        coursesFromArray: [],
         selected: 'A - Z'
     },
     methods: {
@@ -119,9 +114,9 @@ let searchApp = new Vue({
         results: function () {
             return this.coursesFromArray.filter(course => {
                 // search condition
-                var searchCourse = course.topic.includes(this.term);
+                let searchCourse = course.topic.includes(this.term);
                 // filter condition
-                var filterCourse = this.userTopics.length === 0 ||
+                let filterCourse = this.userTopics.length === 0 ||
                     this.userTopics.includes(course.topic) ||
                     this.userPrices.length === 0 ||
                     this.userPrices.includes(course.price);
@@ -185,17 +180,10 @@ searchApp.$watch('results', (val) => {
 
 
 //lab12 info
-const displayCourses = new Vue({
-    el: "#displayCourses",
-    data: {
-        courses: []
-    }
-});
-
 const displayUser = new Vue({
     el: "#displayUser",
     data: {
-        user: ''
+        users: []
     }
 });
 
@@ -204,25 +192,13 @@ fetch("http://localhost:3000/collections/users/", {method: 'GET'})
         return response.json();
     })
     .then(response => {
+        console.log(response);
         // Define data in displayCourses Vue Instance
-        displayUser.user = response;
+        displayUser.users = response;
     })
     .catch(error => {
         console.log("Error: ", error);
     });
 
-// const fetchPromiseUser = fetch("http://localhost:3000/users/", {mode: 'no-cors'});
-//
-// fetchPromiseUser
-//     .then(response => {
-//         return response.json();
-//     })
-//     .then(response => {
-//         // Define data in displayUser Vue Instance
-//         displayUser.user = response;
-//     })
-//     .catch(error => {
-//         console.log("Error: ", error);
-//     });
 
 
