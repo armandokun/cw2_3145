@@ -36,10 +36,9 @@ app.get('/', (req, res) => {
 // Retrieves all data from collection
 app.get('/collections/:collectionName', (req, res, next) => {
     req.collection.find({}).toArray((e, results) => {
-            if (e) return next(e);
-            res.send(results)
-        }
-    )
+        if (e) return next(e);
+        res.send(results)
+    })
 });
 
 // Inserts a new query of data
@@ -54,7 +53,7 @@ app.post('/collections/:collectionName', (req, res, next) => {
 app.get('/collections/:collectionName/:email', (req, res, next) => {
     console.log('searching json object with email:', req.params.email);
     req.collection.findOne({email: (req.params.email)}, (e, result) => {
-        if (e) return next(e);
+        if (e) return next(console.log(`user with email: ${req.params.email} is not found`));
         res.send(result)
     })
 });

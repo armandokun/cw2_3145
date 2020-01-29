@@ -75,14 +75,12 @@ fetchPromiseCourses
         return response.json();
     })
     .then(response => {
-        // Define data in displayUser Vue Instance
+        // Define data in searchApp Vue Instance
         searchApp.coursesFromArray = response;
     })
     .catch(error => {
         console.log("Error: ", error);
     });
-
-
 
 let searchApp = new Vue({
     el: '#searchFilter',
@@ -161,6 +159,7 @@ let searchApp = new Vue({
     }
 });
 
+// main part where the courses are displayed
 let resultsFromFilter = new Vue({
     el: '#results',
     data: {
@@ -177,28 +176,6 @@ searchApp.$watch('sortedArray', (val) => {
 searchApp.$watch('results', (val) => {
     resultsFromFilter.results = val;
 });
-
-
-//lab12 info
-const displayUser = new Vue({
-    el: "#displayUser",
-    data: {
-        users: []
-    }
-});
-
-fetch("http://localhost:3000/collections/users/", {method: 'GET'})
-    .then(response => {
-        return response.json();
-    })
-    .then(response => {
-        console.log(response);
-        // Define data in displayCourses Vue Instance
-        displayUser.users = response;
-    })
-    .catch(error => {
-        console.log("Error: ", error);
-    });
 
 
 
