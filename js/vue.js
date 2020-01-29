@@ -117,17 +117,17 @@ let searchApp = new Vue({
             return [...new Set(this.results.map(x => x.price))]
         },
         results: function () {
-                return this.coursesFromArray.filter(course => {
-                    // search condition
-                    var searchCourse = course.topic.includes(this.term);
-                    // filter condition
-                    var filterCourse = this.userTopics.length === 0 ||
-                        this.userTopics.includes(course.topic) ||
-                        this.userPrices.length === 0 ||
-                        this.userPrices.includes(course.price);
-                    // combine the result
-                    return searchCourse && filterCourse;
-                })
+            return this.coursesFromArray.filter(course => {
+                // search condition
+                var searchCourse = course.topic.includes(this.term);
+                // filter condition
+                var filterCourse = this.userTopics.length === 0 ||
+                    this.userTopics.includes(course.topic) ||
+                    this.userPrices.length === 0 ||
+                    this.userPrices.includes(course.price);
+                // combine the result
+                return searchCourse && filterCourse;
+            })
         },
 
         //sorts through the search and filter that are above
@@ -153,10 +153,14 @@ let searchApp = new Vue({
             }
 
             switch (this.selected) {
-                case 'Z - A': return ascOrder.reverse();
-                case 'Low - High': return this.results.sort(lhp);
-                case 'High - Low': return this.results.sort(lhp).reverse();
-                default: return ascOrder;
+                case 'Z - A':
+                    return ascOrder.reverse();
+                case 'Low - High':
+                    return this.results.sort(lhp);
+                case 'High - Low':
+                    return this.results.sort(lhp).reverse();
+                default:
+                    return ascOrder;
             }
         }
     }
@@ -179,5 +183,46 @@ searchApp.$watch('results', (val) => {
     resultsFromFilter.results = val;
 });
 
+
+//lab12 info
+const displayCourses = new Vue({
+    el: "#displayCourses",
+    data: {
+        courses: []
+    }
+});
+
+const displayUser = new Vue({
+    el: "#displayUser",
+    data: {
+        user: ''
+    }
+});
+
+fetch("http://localhost:3000/collections/users/", {method: 'GET'})
+    .then(response => {
+        return response.json();
+    })
+    .then(response => {
+        // Define data in displayCourses Vue Instance
+        displayUser.user = response;
+    })
+    .catch(error => {
+        console.log("Error: ", error);
+    });
+
+// const fetchPromiseUser = fetch("http://localhost:3000/users/", {mode: 'no-cors'});
+//
+// fetchPromiseUser
+//     .then(response => {
+//         return response.json();
+//     })
+//     .then(response => {
+//         // Define data in displayUser Vue Instance
+//         displayUser.user = response;
+//     })
+//     .catch(error => {
+//         console.log("Error: ", error);
+//     });
 
 
