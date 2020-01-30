@@ -11,45 +11,51 @@ var userForm = new Vue({
     },
     methods: {
         logIn: function () {
-            // check if the email already exists
-            let users = [];
-            let existingEmail = this.email;
-            let existingPassword = this.password;
-            if (localStorage.getItem("users")) {
-                // 'users' is an array of objects
-                users = JSON.parse(localStorage.getItem("users"));
-            }
-            if (users) {
-                if (
-                    users.some(function (user) {
-                        return user.email === existingEmail && user.password === existingPassword;
-                    })
-                ) {
-                    //takes an index of the user of users array and changes the state value to logged in
-                    var index = users.findIndex(obj => obj.email === existingEmail && obj.password === existingPassword);
-                    users[index].on = true;
-                    localStorage.setItem("users", JSON.stringify(users));
-
-                } else
-                    alert("The email or password is incorrect");
-            }
         },
-        signUp: function () {
-            // check if the email already exists
-            let newEmail = this.email;
-            let users = [];
+        signUp: function (e) {
+            e.preventDefault();
+            const form = {
+                "email": this.email,
+                "password": this.password,
+                "userType": this.userType,
+                "on": false
+            };
 
-            fetch(`http://localhost:3000/collections/users/${newEmail}`, {method: 'GET'})
-                .then(response => {
-                    return response.json();
+            // email validation
+            fetch(`http://localhost:3000/collections/users/${form.email}`)
+                .then(res => {
+                    return res.json();
                 })
-                .then(response => {
-                    // Define data in searchApp Vue Instance
-                    if (response.email === this.email) alert('This email is already registered');
+                .then(() => {
+                    // inform the user
+                    alert('This email is already registered');
                 })
-                .catch(error => {
-                    console.log("Error: ", error);
-                });
+                .catch((err) => {
+                    console.log(err);
+
+                    // creates an account
+                    fetch('http://localhost:3000/collections/users/',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(form)
+                        })
+                        .then(res => {
+                            if (res.ok) {
+
+                                alert('You have created an account!');
+
+                                // Redirects to log in page
+                                window.location.href = "#popup2";
+
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                })
         }
     }
 });

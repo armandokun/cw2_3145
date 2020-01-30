@@ -45,16 +45,15 @@ app.get('/collections/:collectionName', (req, res, next) => {
 app.post('/collections/:collectionName', (req, res, next) => {
     req.collection.insert(req.body, (e, results) => {
         if (e) return next(e);
-        res.send(results.ops)
+        res.send(results);
     })
 });
 
 // retrieve data by email
 app.get('/collections/:collectionName/:email', (req, res, next) => {
-    console.log('searching json object with email:', req.params.email);
     req.collection.findOne({email: (req.params.email)}, (e, result) => {
-        if (e) return next(console.log(`user with email: ${req.params.email} is not found`));
-        res.send(result)
+        if (e) return next(e);
+        res.send(result);
     })
 });
 
