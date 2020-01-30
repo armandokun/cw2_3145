@@ -57,9 +57,17 @@ app.get('/collections/:collectionName/:email', (req, res, next) => {
     })
 });
 
+// validate login by email and password
+app.get('/collections/:collectionName/:email/:password', (req, res, next) => {
+    req.collection.findOne({email: (req.params.email), password: (req.params.password)}, (e, result) => {
+        if (e) return next(e);
+        res.send(result)
+    })
+});
+
 // update a user by email
 app.put('/collections/:collectionName/:email', (req, res, next) => {
-    req.collection.update({email: (req.params.email)},
+    req.collection.updateOne({email: (req.params.email)},
         {$set: req.body},
         {safe: true, multi: false}, (e, result) => {
             if (e) return next(e);

@@ -10,7 +10,42 @@ var userForm = new Vue({
         on: Boolean
     },
     methods: {
-        logIn: function () {
+        logIn: function (e) {
+            e.preventDefault();
+
+            const logInForm = {
+                "email": this.email,
+                "password": this.password,
+                "on": this.on,
+                "userType": this.userType
+            };
+
+            fetch(`http://localhost:3000/collections/users/${logInForm.email}/${logInForm.password}`)
+                .then(res => {
+                    return res.json()
+                })
+                .then(() => {
+
+                    // logged in!
+                    logInForm.on = true;
+
+                    fetch(`http://localhost:3000/collections/users/${logInForm.email}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(logInForm)
+                    })
+                        .then(res => {
+                            return res.json()
+                        })
+                        .then(() => {
+                            window.location.href = "index.html";
+                        });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert('The email or password is incorrect')
+                })
+
         },
         signUp: function (e) {
             e.preventDefault();
@@ -33,7 +68,7 @@ var userForm = new Vue({
                 .catch((err) => {
                     console.log(err);
 
-                    // creates an account
+                    // creates an account if the received response is empty
                     fetch('http://localhost:3000/collections/users/',
                         {
                             method: 'POST',
