@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     res.send('Select a collection, e.g., /collections/messages')
 });
 
-// Retrieves all data from collection
+// Gets all data from collection
 app.get('/collections/:collectionName', (req, res, next) => {
     req.collection.find({}).toArray((e, results) => {
         if (e) return next(e);
@@ -53,6 +53,14 @@ app.post('/collections/:collectionName', (req, res, next) => {
 app.get('/collections/:collectionName/:email', (req, res, next) => {
     req.collection.findOne({email: (req.params.email)}, (e, result) => {
         if (e) return next(e);
+        res.send(result);
+    })
+});
+
+// Get user who's status is ON
+app.get('/collections/:collectionName/status/:status', (req, res, next) => {
+    req.collection.findOne({on: true}, (err, result) => {
+        if (err) return next(err);
         res.send(result);
     })
 });

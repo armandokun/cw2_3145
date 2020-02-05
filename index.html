@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -13,16 +13,13 @@
 <body>
 <div class="container">
     <header>
-        <div id="header-template">
-            <page-header></page-header>
-        </div>
         <div id="userForm">
             <div id="popup1" class="overlay">
                 <div class="popup">
                     <h2>Sign Up</h2>
                     <a class="close" href="#">&times;</a>
                     <div class="content">
-                        <form id="signup">
+                        <form id="signUp">
                             <p>type:</p>
                             <div>
                                 <input
@@ -52,14 +49,16 @@
                                     type="email"
                                     id="SignUpEmail"
                                     v-model="email"
+                                    autocomplete="current-password"
                             />
                             <br/><br/>
                             <label for="password">password: </label>
                             <input
                                     required
                                     type="password"
-                                    id="SignUppassword"
+                                    id="SignUpPassword"
                                     v-model="password"
+                                    autocomplete="current-password"
                             />
                             <br/><br/>
                             <button @click="signUp">submit</button>
@@ -74,7 +73,13 @@
                     <div class="content">
                         <form id="login" @submit="logIn" action="/index.html">
                             <label for="email">email: </label>
-                            <input required type="email" id="email" v-model="email"/>
+                            <input
+                                    required
+                                    type="email"
+                                    id="email"
+                                    v-model="email"
+                                    autocomplete="username"
+                            />
                             <br/><br/>
                             <label for="password">password: </label>
                             <input
@@ -82,6 +87,7 @@
                                     type="password"
                                     id="password"
                                     v-model="password"
+                                    autocomplete="current-password"
                             />
                             <br/><br/>
                             <button type="submit">submit</button>
@@ -89,6 +95,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="header-template">
+            <page-header></page-header>
         </div>
     </header>
     <aside>

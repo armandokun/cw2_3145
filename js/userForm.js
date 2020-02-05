@@ -1,9 +1,8 @@
 // User connection
-var userForm = new Vue({
+let userForm = new Vue({
     el: "#userForm",
     data: {
-
-        // User option will be selected by default to prevent not selecting anything
+        // User type option will be selected by default to prevent not selecting anything
         userType: "user",
         email: "",
         password: "",
@@ -14,10 +13,10 @@ var userForm = new Vue({
             e.preventDefault();
 
             const logInForm = {
-                "email": this.email,
-                "password": this.password,
-                "on": this.on,
-                "userType": this.userType
+                email: this.email,
+                password: this.password,
+                on: this.on,
+                userType: this.userType
             };
 
             fetch(`http://localhost:3000/collections/users/${logInForm.email}/${logInForm.password}`)
@@ -25,7 +24,6 @@ var userForm = new Vue({
                     return res.json()
                 })
                 .then(() => {
-
                     // logged in!
                     logInForm.on = true;
 
@@ -91,6 +89,66 @@ var userForm = new Vue({
                             console.log(err);
                         })
                 })
-        }
+        },
     }
+});
+
+//Header Component
+Vue.component("page-header", {
+    data: () => {
+        return {
+            email: ""
+        }
+    },
+    methods: {
+        logOut: function () {
+            fetch(`http://localhost:3000/collections/users/${this.email}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({on: false})
+            })
+                .then(res => {
+                    return res.json();
+                })
+                .then(() => {
+                    window.location.href = "index.html";
+                });
+        },
+        addActivity: function () {
+            window.location.href = "provider.html"
+        }
+    },
+    computed: {
+        userEmail: function () {
+            fetch('http://localhost:3000/collections/users/status/true')
+                .then(res => res.json())
+                .then(value => {
+                    return this.email = (value.email).toLowerCase()
+                })
+                .catch(err => {
+                    return false
+                });
+        },
+    },
+    template: `
+    <div class="page-header-template">
+    <a href="/index.html"><img src="./img/header-logo.png" alt='Logo in the Header' id="headerLogo"></a>
+    <div id='button-left-alignment'>
+    <div v-if="email != ''">
+    <p>email: </p><p id="userEmail">{{ email }}</p>
+    <button @click="addActivity">Add Class or Activity</button>
+    <button @click="logOut">Log Out</button>
+    </div>
+    <div v-else>
+    <a class="button" href="#popup2">Log In</a>
+    <a class="button" href="#popup1">Sign Up</a>
+    </div>
+    </div>
+    </div>
+    `,
+});
+
+//Header Instance for page-header element
+let headerApp = new Vue({
+    el: "#header-template",
 });
