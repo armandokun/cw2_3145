@@ -1,4 +1,18 @@
-// Provider Preview Instance
+// Current user's email
+let userEmail = () => {
+    fetch('http://localhost:3000/collections/users/status/true')
+        .then(res => res.json())
+        .then(value => {
+            providerView.currentEmail = (value.email).toLowerCase()
+        })
+        .catch(err => {
+            return false
+        });
+};
+// current email
+userEmail();
+
+// Add Course
 var providerApp = new Vue({
     el: '#provider-add',
     data: {
@@ -38,50 +52,26 @@ var providerApp = new Vue({
 });
 
 var providerView = new Vue({
-    el: '#providerView',
-    data: {
-        courses: courses,
-        isEditing: providerApp.isEditing
-    },
-    computed: {
-        filterCoursesByEmail: function () {
-            return this.courses.map(this.checkUserInCourses);
-        }
-    },
-    methods: {
-        checkUserInCourses: function (course) {
-            if (course.user === document.getElementById("userEmail").innerText) {
-                return course;
+        el: '#providerView',
+        data: {
+            currentEmail: "",
+            courses: [],
+            isEditing: providerApp.isEditing
+        },
+        methods: {
+            // fetch and move to courses array
+            filterCoursesByEmail: async function () {
+                await fetch(`http://localhost:3000/collections/courses/${this.currentEmail}`)
+                    .then(res => res.json())
+                    .then(results => this.courses = results);
+            },
+            removeActivity: (index) => {
+            },
+            editActivity: function (index) {
+
+            },
+            save: function (index) {
             }
-        },
-        removeActivity: (index) => {
-            let courseId = index.path[3].id;
-            let courses = JSON.parse(localStorage.getItem("courses"));
-
-            // removes a course from the list
-            courses.splice(courseId, 1);
-
-            // refreshes localstorage
-            localStorage.setItem("courses", JSON.stringify(courses));
-
-            // deletes div element of the course
-            index.path[3].remove();
-
-            console.log("ID: " + courseId +  " has been removed");
-
-        },
-        editActivity: function(index) {
-
-            this.isEditing = true;
-
-        },
-        save: function(index) {
-            this.isEditing = false;
-
-            let courseId = index.path[3].id;
-            let courses = JSON.parse(localStorage.getItem("courses"));
-
-            console.log(JSON.stringify(courses));
         }
-    }
-});
+    })
+;

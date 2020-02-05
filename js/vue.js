@@ -1,4 +1,4 @@
-const fetchPromiseCourses = fetch("http://localhost:3000/collections/courses", {method: 'GET'});
+const fetchPromiseCourses = fetch("http://localhost:3000/collections/courses");
 
 fetchPromiseCourses
     .then(response => {

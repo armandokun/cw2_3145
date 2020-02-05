@@ -51,7 +51,7 @@ app.post('/collections/:collectionName', (req, res, next) => {
 
 // retrieve data by email
 app.get('/collections/:collectionName/:email', (req, res, next) => {
-    req.collection.findOne({email: (req.params.email)}, (e, result) => {
+    req.collection.find({email: (req.params.email)}).toArray((e, result) => {
         if (e) return next(e);
         res.send(result);
     })
