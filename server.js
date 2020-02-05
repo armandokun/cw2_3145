@@ -57,6 +57,13 @@ app.get('/collections/:collectionName/:email', (req, res, next) => {
     })
 });
 
+app.get('/collections/:collectionName/get/:id', (req, res, next) => {
+    req.collection.find(mongoDB.ObjectId(req.params.id)).toArray((e, result) => {
+        if (e) return next(e);
+        res.send(result);
+    })
+});
+
 // Get user who's status is ON
 app.get('/collections/:collectionName/status/:status', (req, res, next) => {
     req.collection.findOne({on: true}, (err, result) => {
@@ -77,6 +84,18 @@ app.get('/collections/:collectionName/:email/:password', (req, res, next) => {
 app.put('/collections/:collectionName/:email', (req, res, next) => {
     req.collection.updateOne({email: (req.params.email)},
         {$set: req.body},
+        {safe: true, multi: false}, (e, result) => {
+            if (e) return next(e);
+            res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
+        })
+});
+
+// update a course by id
+app.put('/collections/:collectionName/put/:id', (req, res, next) => {
+    let ObjectID = mongoDB.ObjectID;
+    req.collection.updateOne({_id: ObjectID(req.params.id)},
+        {$set: {topic: req.body.topic, price: req.body.price, about: req.body.about,
+            rankings: req.body.rankings, location: req.body.location}},
         {safe: true, multi: false}, (e, result) => {
             if (e) return next(e);
             res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})

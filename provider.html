@@ -25,7 +25,7 @@
         <div id="filter" v-show="false"></div>
     </aside>
     <main>
-        <form id="provider-add" @submit="addClass">
+        <form id="provider-add" @submit.prevent="addClass">
             <div>
                 <label for="topic">Topic</label>
                 <input
@@ -72,32 +72,31 @@
         </form>
         <div id="providerView">
             <button @click="filterCoursesByEmail">Load Courses</button>
-            <form @submit.prevent v-for="course in courses" class="course" v-bind:key="course._id">
-                <p :id="course._id" style="display: none"></p>
+            <form @submit.prevent v-for="course in courses" class="course" :id="course._id">
                 <div>
                     <label>Topic</label>
-                    <input v-model="course.topic" :disabled="!isEditing" :class="{view: !isEditing}">
+                    <input v-model="course.topic" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
                 <div>
                     <label>Price</label>
-                    <input v-model="course.price" :disabled="!isEditing" :class="{view: !isEditing}">
+                    <input v-model="course.price" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
                 <div>
                     <label>Location</label>
-                    <input v-model="course.location" :disabled="!isEditing" :class="{view: !isEditing}">
+                    <input v-model="course.location" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
                 <div>
                     <label>Provider</label>
-                    <input v-model="course.email" disabled :class="{view: !isEditing}">
+                    <input v-model="course.email" disabled :class="{view: !course.isEditing}">
                 </div>
                 <div>
                     <label>Rankings</label>
-                    <input v-model="course.ranking" :disabled="!isEditing" :class="{view: !isEditing}">
+                    <input v-model="course.ranking" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
                 <div>
-                    <button v-if="!isEditing" @click="editActivity">Edit</button>
-                    <button v-if="isEditing" @click="save">Save</button>
-                    <button @click="removeActivity">Remove</button>
+                    <button v-if="!course.isEditing" @click="editCourse(course)">Edit</button>
+                    <button v-if="course.isEditing" @click="saveCourse(course)">Save</button>
+                    <button @click="removeCourse(course)">Remove</button>
                 </div>
             </form>
         </div>

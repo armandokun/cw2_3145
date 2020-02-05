@@ -3,7 +3,8 @@ let userEmail = () => {
     fetch('http://localhost:3000/collections/users/status/true')
         .then(res => res.json())
         .then(value => {
-            providerView.currentEmail = (value.email).toLowerCase()
+            providerView.currentEmail = (value.email).toLowerCase();
+            providerApp.email = (value.email).toLowerCase()
         })
         .catch(err => {
             return false
@@ -13,50 +14,49 @@ let userEmail = () => {
 userEmail();
 
 // Add Course
-var providerApp = new Vue({
+let providerApp = new Vue({
     el: '#provider-add',
     data: {
         topic: '',
         location: '',
-        price: Number,
+        price: 0,
         about: '',
+        email: '',
         isEditing: false
     },
     methods: {
         addClass: function () {
-            courses = "";
-            if (localStorage.getItem("courses")) {
-                courses = JSON.parse(localStorage.getItem("courses"));
-            }
-            if (courses) {
-                courses.push({
-                    topic: this.topic,
-                    location: this.location,
-                    price: this.price,
-                    about: this.about,
-                    user: document.getElementById("userEmail").innerText
-                });
-                localStorage.setItem("courses", JSON.stringify(courses));
-            } else {
-                courses = [{
-                    topic: this.topic,
-                    location: this.location,
-                    price: this.price,
-                    about: this.about,
-                    user: document.getElementById("userEmail").innerText
-                }];
-                localStorage.setItem("courses", JSON.stringify(courses));
-            }
+
+            const courseDetails = {
+                topic: this.topic,
+                location: this.location,
+                price: this.price,
+                about: this.about,
+                email: this.email,
+                rankings: '',
+                isEditing: this.isEditing
+            };
+
+            fetch(`http://localhost:3000/collections/courses`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(courseDetails)
+            })
+                .then(res => res.json())
+                .then(results => {
+                    console.log(results);
+                    alert("Course has been added!")
+                })
+                .catch(err => console.log(err));
         }
     }
 });
 
-var providerView = new Vue({
+let providerView = new Vue({
         el: '#providerView',
         data: {
             currentEmail: "",
-            courses: [],
-            isEditing: providerApp.isEditing
+            courses: []
         },
         methods: {
             // fetch and move to courses array
@@ -65,13 +65,24 @@ var providerView = new Vue({
                     .then(res => res.json())
                     .then(results => this.courses = results);
             },
-            removeActivity: (index) => {
+            removeCourse: (course) => {
+                console.log(course)
             },
-            editActivity: function (index) {
+            editCourse: function (course) {
+                course.isEditing = true;
+            },
+            saveCourse: function (course) {
 
-            },
-            save: function (index) {
+                fetch(`http://localhost:3000/collections/courses/put/${course._id}`,{
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(course)
+                })
+                    .then(res => res.json())
+                    .then(results => console.log(results))
+                    .catch(err => console.log(err));
+
+                course.isEditing = false;
             }
         }
-    })
-;
+    });
