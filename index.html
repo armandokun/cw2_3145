@@ -139,11 +139,35 @@
         <div id="results">
             <!-- results -->
             <div v-for='course in results' class='course'>
-                <ul>
-                    <li v-for='(value, key) in course'>
-                        {{key}}: {{value}}
-                    </li>
-                </ul>
+                <div>
+                    <label>Topic</label>
+                    <input v-model="course.topic" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
+                </div>
+                <div>
+                    <label>Price</label>
+                    <input v-model="course.price" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
+                </div>
+                <div>
+                    <label>Location</label>
+                    <input v-model="course.location" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
+                </div>
+                <div>
+                    <label>Provider</label>
+                    <input v-model="course.email" disabled :class="{view: !course.isEditing}">
+                </div>
+                <div>
+                    <label>Rankings</label>
+                    <div v-if="course.email !== currentEmail">
+                        <select>
+                            <option value="" selected>Rate Here</option>
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                            <option value="1">3</option>
+                            <option value="1">4</option>
+                            <option value="1">5</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

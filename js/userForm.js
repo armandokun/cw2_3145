@@ -118,17 +118,15 @@ Vue.component("page-header", {
             window.location.href = "provider.html"
         }
     },
-    computed: {
-        userEmail: function () {
-            fetch('http://localhost:3000/collections/users/status/true')
-                .then(res => res.json())
-                .then(value => {
-                    return this.email = (value.email).toLowerCase()
-                })
-                .catch(err => {
-                    return false
-                });
-        }
+    mounted() {
+        fetch('http://localhost:3000/collections/users/status/true')
+            .then(res => res.json())
+            .then(value => {
+                return this.email = (value.email).toLowerCase()
+            })
+            .catch(err => {
+                return false
+            });
     },
     template: `
     <div class="page-header-template">

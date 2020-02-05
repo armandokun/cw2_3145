@@ -86,11 +86,15 @@
                     <input v-model="course.location" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
                 <div>
+                    <label>About</label>
+                    <input v-model="course.about" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
+                </div>
+                <div>
                     <label>Provider</label>
                     <input v-model="course.email" disabled :class="{view: !course.isEditing}">
                 </div>
                 <div>
-                    <label>Rankings</label>
+                    <label>Rating</label>
                     <input v-model="course.rankings" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
                 <div>

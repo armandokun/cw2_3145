@@ -33,7 +33,7 @@ let providerApp = new Vue({
                 price: this.price,
                 about: this.about,
                 email: this.email,
-                rankings: '',
+                rankings: 'No Rating',
                 isEditing: this.isEditing
             };
 
@@ -60,8 +60,8 @@ let providerView = new Vue({
     },
     methods: {
         // fetch and move to courses array
-        filterCoursesByEmail: async function () {
-            await fetch(`http://localhost:3000/collections/courses/${this.currentEmail}`)
+        filterCoursesByEmail: function () {
+            fetch(`http://localhost:3000/collections/courses/${this.currentEmail}`)
                 .then(res => res.json())
                 .then(results => this.courses = results);
         },
@@ -71,7 +71,10 @@ let providerView = new Vue({
                 method: 'DELETE'
             })
                 .then(res => res.json())
-                .then(results => {console.log(results);document.getElementById(course._id).remove()})
+                .then(results => {
+                    console.log(results);
+                    document.getElementById(course._id).remove()
+                })
                 .catch(err => console.log(err))
         },
         editCourse: function (course) {

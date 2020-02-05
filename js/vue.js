@@ -1,6 +1,5 @@
-const fetchPromiseCourses = fetch("http://localhost:3000/collections/courses");
-
-fetchPromiseCourses
+// Fetch all courses
+fetch("http://localhost:3000/collections/courses")
     .then(response => {
         return response.json();
     })
@@ -93,7 +92,17 @@ let searchApp = new Vue({
 let resultsFromFilter = new Vue({
     el: '#results',
     data: {
-        results: searchApp.results
+        results: searchApp.results,
+        currentEmail: ''
+    },
+    mounted() {
+        fetch('http://localhost:3000/collections/users/status/true')
+            .then(res => res.json())
+            .then(value => {
+                resultsFromFilter.currentEmail = (value.email).toLowerCase();
+            })
+            .catch(err => console.log('No one has signed in' + err));
+
     }
 });
 
