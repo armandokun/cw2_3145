@@ -128,7 +128,7 @@ Vue.component("page-header", {
                 .catch(err => {
                     return false
                 });
-        },
+        }
     },
     template: `
     <div class="page-header-template">

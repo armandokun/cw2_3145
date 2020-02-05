@@ -53,36 +53,42 @@ let providerApp = new Vue({
 });
 
 let providerView = new Vue({
-        el: '#providerView',
-        data: {
-            currentEmail: "",
-            courses: []
+    el: '#providerView',
+    data: {
+        currentEmail: "",
+        courses: []
+    },
+    methods: {
+        // fetch and move to courses array
+        filterCoursesByEmail: async function () {
+            await fetch(`http://localhost:3000/collections/courses/${this.currentEmail}`)
+                .then(res => res.json())
+                .then(results => this.courses = results);
         },
-        methods: {
-            // fetch and move to courses array
-            filterCoursesByEmail: async function () {
-                await fetch(`http://localhost:3000/collections/courses/${this.currentEmail}`)
-                    .then(res => res.json())
-                    .then(results => this.courses = results);
-            },
-            removeCourse: (course) => {
-                console.log(course)
-            },
-            editCourse: function (course) {
-                course.isEditing = true;
-            },
-            saveCourse: function (course) {
+        removeCourse: (course) => {
 
-                fetch(`http://localhost:3000/collections/courses/put/${course._id}`,{
-                    method: 'PUT',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(course)
-                })
-                    .then(res => res.json())
-                    .then(results => console.log(results))
-                    .catch(err => console.log(err));
+            fetch(`http://localhost:3000/collections/courses/${course._id}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(results => {console.log(results);document.getElementById(course._id).remove()})
+                .catch(err => console.log(err))
+        },
+        editCourse: function (course) {
+            course.isEditing = true;
+        },
+        saveCourse: function (course) {
 
-                course.isEditing = false;
-            }
+            fetch(`http://localhost:3000/collections/courses/put/${course._id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(course)
+            })
+                .then(res => res.json())
+                .then(results => console.log(results))
+                .catch(err => console.log(err));
+
+            course.isEditing = false;
         }
-    });
+    }
+});
