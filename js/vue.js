@@ -93,7 +93,8 @@ let resultsFromFilter = new Vue({
     el: '#results',
     data: {
         results: searchApp.results,
-        currentEmail: ''
+        currentEmail: '',
+        selectedRating: ''
     },
     mounted() {
         fetch('http://localhost:3000/collections/users/status/true')
@@ -102,7 +103,27 @@ let resultsFromFilter = new Vue({
                 resultsFromFilter.currentEmail = (value.email).toLowerCase();
             })
             .catch(err => console.log('No one has signed in' + err));
-
+    },
+    methods: {
+        rate: (courseId, user, rating) => {
+            console.log(courseId, user, rating);
+            fetch(`http://localhost:3000/collections/courses/update/${courseId}-${user}-${rating}`, {
+                method: 'PUT'
+            })
+                .then(res => res.json())
+                .then(value => {
+                    console.log(value)
+                })
+                .catch(err => console.log(err))
+        },
+        resetRating: (courseId) => {
+            fetch(`http://localhost:3000/collections/courses/rating/${courseId}`, {
+                method: 'PUT'
+            })
+                .then(res => res.json())
+                .then(value => console.log(value))
+                .catch(err => console.log(err))
+        }
     }
 });
 

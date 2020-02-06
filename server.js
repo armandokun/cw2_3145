@@ -121,6 +121,37 @@ app.delete('/collections/:collectionName/:email', (req, res, next) => {
     })
 });
 
+// update rankings by id
+app.put('/collections/:collectionName/update/:id-:user-:score', (req, res) => {
+    req.collection.findOneAndUpdate({
+        _id: mongoDB.ObjectID(req.params.id),
+        "rating.user": (req.params.user)
+    }, {$set: {"rating.$.score": (req.params.score)}})
+        .then(results => {
+            if (results.value === null) {
+                req.collection.findOneAndUpdate({
+                        _id: mongoDB.ObjectID(req.params.id),
+                    },
+                    {$push: {rating: {user: (req.params.user), score: (req.params.score)}}}
+                )
+                    .then(value => res.send(value))
+            } else {
+                res.send(results)
+            }
+        })
+        .catch(err => res.send(err));
+});
+
+// reset ratings by id
+app.put('/collections/:collectionName/rating/:id', (req, res, next) => {
+    req.collection.updateOne({
+        _id: mongoDB.ObjectID(req.params.id)
+    }, {$set: {rating: []}}, (e, result) => {
+        if (e) return next(e);
+        res.send(result)
+    })
+});
+
 // Start the server
 let port = 3000;
 app.listen(port, console.log(`Server is listening on :${port}`));

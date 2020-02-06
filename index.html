@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <link rel="stylesheet" type="text/css" href="./css/styles.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+    <script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
+
     <script src="./js/vue.js" defer></script>
     <script src="./js/userForm.js" defer></script>
     <title>cw1_3145</title>
@@ -149,24 +151,39 @@
                 </div>
                 <div>
                     <label>Location</label>
-                    <input v-model="course.location" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
+                    <input v-model="course.location" :disabled="!course.isEditing"
+                           :class="{view: !course.isEditing}">
+                </div>
+                <div>
+                    <label>About</label>
+                    <input v-model="course.about" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
                 <div>
                     <label>Provider</label>
                     <input v-model="course.email" disabled :class="{view: !course.isEditing}">
                 </div>
                 <div>
-                    <label>Rankings</label>
+                    <label>Ratings</label>
                     <div v-if="course.email !== currentEmail">
+                        <select v-model="selectedRating">
+                            <option selected disabled value="">Rating:</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                        <button @click="rate(course._id, currentEmail, selectedRating)">Rate</button>
+                    </div>
+                    <div v-if="course.rating.length === 0">
+                        <p>No Rating</p>
+                    </div>
+                    <div v-else>
                         <select>
-                            <option value="" selected>Rate Here</option>
-                            <option value="1">1</option>
-                            <option value="1">2</option>
-                            <option value="1">3</option>
-                            <option value="1">4</option>
-                            <option value="1">5</option>
+                            <option v-for="(score, user) in course.rating">{{user}}: {{score}}</option>
                         </select>
                     </div>
+                    <button @click="resetRating(course._id)">Reset</button>
                 </div>
             </div>
         </div>

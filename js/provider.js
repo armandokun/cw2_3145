@@ -33,7 +33,7 @@ let providerApp = new Vue({
                 price: this.price,
                 about: this.about,
                 email: this.email,
-                rankings: 'No Rating',
+                rating: [],
                 isEditing: this.isEditing
             };
 

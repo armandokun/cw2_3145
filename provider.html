@@ -95,7 +95,12 @@
                 </div>
                 <div>
                     <label>Rating</label>
-                    <input v-model="course.rankings" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
+                    <div v-if="course.rating = []">
+                        <input :class="{view: !course.isEditing}" disabled value="No Rating">
+                    </div>
+                    <div v-else>
+                        <input v-model="course.rating" disabled :class="{view: !course.isEditing}">
+                    </div>
                 </div>
                 <div>
                     <button v-if="!course.isEditing" @click="editCourse(course)">Edit</button>
