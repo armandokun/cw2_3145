@@ -10,7 +10,7 @@ var appShellFiles = [
 
 var courseImages = [];
 for (var i = 0; i < images.length; i++) {
-    courseImages.push('data/img/' + images[i].name + '.png');
+    courseImages.push('img/' + images[i].name + '.png');
 }
 var contentToCache = appShellFiles.concat(courseImages);
 
