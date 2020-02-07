@@ -15,11 +15,10 @@ let userForm = new Vue({
             const logInForm = {
                 email: this.email,
                 password: this.password,
-                on: this.on,
-                userType: this.userType
+                on: this.on
             };
 
-            fetch(`http://localhost:3000/collections/users/${logInForm.email}/${logInForm.password}`)
+            fetch(`http://localhost:3000/collections/users/${logInForm.email}/${logInForm.password}`, {method: 'PUT'})
                 .then(res => {
                     return res.json()
                 })
@@ -55,7 +54,7 @@ let userForm = new Vue({
             };
 
             // email validation
-            fetch(`http://localhost:3000/collections/users/${form.email}`)
+            fetch(`http://localhost:3000/collections/users/register/${form.email}`)
                 .then(res => {
                     return res.json();
                 })
@@ -97,7 +96,8 @@ let userForm = new Vue({
 Vue.component("page-header", {
     data: () => {
         return {
-            email: ""
+            email: "",
+            userType: ""
         }
     },
     methods: {
@@ -122,7 +122,8 @@ Vue.component("page-header", {
         fetch('http://localhost:3000/collections/users/status/true')
             .then(res => res.json())
             .then(value => {
-                return this.email = (value.email).toLowerCase()
+                this.email = (value.email).toLowerCase();
+                this.userType = (value.userType).toLowerCase();
             })
             .catch(err => {
                 return false
@@ -134,7 +135,9 @@ Vue.component("page-header", {
     <div id='button-left-alignment'>
     <div v-if="email != ''">
     <p>email: </p><p id="userEmail">{{ email }}</p>
+    <div v-if="userType === 'provider'">
     <button @click="addActivity">Add Class or Activity</button>
+    </div>
     <button @click="logOut">Log Out</button>
     </div>
     <div v-else>
