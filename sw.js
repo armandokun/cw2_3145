@@ -14,12 +14,15 @@ var appShellFiles = [
 var courseImages = [];
 for (var i = 0; i < images.length; i++) {
     courseImages.push('img/' + images[i].name + '.png');
+    console.log(images[i])
+    console.log(images[i].name)
 }
+
 var contentToCache = appShellFiles.concat(courseImages);
 
 // Installing Service Worker
 self.addEventListener('install', function (e) {
-    console.log('[Service Worker] Install');
+    console.log('[Service Worker: ' + cacheName +'] Install');
     e.waitUntil(
         caches.open(cacheName).then(function (cache) {
             console.log('[Service Worker: '+ cacheName +'] Caching all: app shell and content');
