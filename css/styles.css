@@ -47,6 +47,21 @@ main {
     padding: 10px;
 }
 
+.view {
+    border-color: transparent;
+    background-color: initial;
+    color: initial
+}
+
+img[data-src] {
+    filter: blur(0.2em);
+}
+
+img {
+    filter: blur(0em);
+    transition: filter 0.5s;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -108,19 +123,4 @@ main {
     .popup {
         width: 70%;
     }
-}
-
-.view {
-    border-color: transparent;
-    background-color: initial;
-    color: initial
-}
-
-img[data-src] {
-    filter: blur(0.2em);
-}
-
-img {
-    filter: blur(0em);
-    transition: filter 0.5s;
 }

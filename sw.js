@@ -1,7 +1,7 @@
 self.importScripts('img/data.js');
 
 // Files to cache
-const cacheName = 'armandokun-v1';
+const cacheName = 'armandokun-v2';
 const appShellFiles = [
     '/cw2_3145/js/vue.js',
     '/cw2_3145/js/userForm.js',
@@ -29,6 +29,13 @@ self.addEventListener('install', (e) => {
 
 self.addEventListener('activate', (e) => {
     console.log('[Service Worker] Activated');
+    e.waitUntil(
+        caches.keys().then(keys => {
+            return Promise.all(keys
+                .filter(key => key !== cacheName)
+                .map(key => caches.delete(key)))
+        })
+    )
 });
 
 // Fetching content using Service Worker
