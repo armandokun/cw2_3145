@@ -9,8 +9,8 @@
     <link rel="manifest" href="cw2_3145.webmanifest">
     <script src="./js/vue.js" defer></script>
     <script src="./js/userForm.js" defer></script>
-    <script src="app.js" defer></script>
     <script src="img/data.js" defer></script>
+    <script src="app.js" defer></script>
     <title>cw1_3145</title>
 </head>
 <body>
@@ -144,7 +144,7 @@
             <!-- results -->
             <div v-for='course in results' class='course'>
                 <div>
-                    <img src="img/placeholder.png" data-src="'img/'+ course.topic +'.png'" alt="course.topic"
+                    <img src="img/placeholder.png" :data-src="'img/'+ course.topic +'.png'" alt="course.topic"
                          width="1">
                 </div>
                 <div>
