@@ -1,7 +1,7 @@
 self.importScripts('img/data.js');
 
 // Files to cache
-const cacheName = 'armandokun-v2';
+const cacheName = 'armandokun-v3';
 const dynamicCache = 'armandokun-dynamic-v1';
 const appShellFiles = [
     '/cw2_3145/js/vue.js',

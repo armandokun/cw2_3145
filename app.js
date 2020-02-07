@@ -2,7 +2,7 @@
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
         .then((reg) => {
-            console.log('[Service Worker: Registered] ', reg)
+            console.log('[Service Worker: Registered] ', reg);
         })
         .catch((err) => console.log('[Service Worker: Not Registered] ', err))
 }
@@ -13,22 +13,22 @@ button.addEventListener('click', function (e) {
     Notification.requestPermission().then(function (result) {
         if (result === 'granted') {
             navigator.serviceWorker.getRegistration()
-                .then(reg => reg.showNotification('Cache has been created'))
+                .then(reg => reg.showNotification('Notifications Are Turned On'));
+            // since it's not needed anymore
+            button.remove();
         }
     });
 });
 
-function randomNotification() {
-
-    // const randomItem = Math.floor(Math.random() * images.length);
-    // const notifTitle = images[randomItem].name;
-    // const notifBody = 'Created by Armando';
-    // const notifImg = 'img/' + images[randomItem].name + '.png';
-    // const options = {
-    //     body: notifBody,
-    //     icon: notifImg
-    // };
-
-    var notif = new Notification(notifTitle, options);
-    setTimeout(randomNotification, 30000);
+function displayNotification(title) {
+    if (Notification.permission === 'granted') {
+        navigator.serviceWorker.getRegistration().then(function (reg) {
+            reg.showNotification(title);
+        });
+    }
 }
+
+// displayNotification('Test1');
+
+
+
