@@ -3,7 +3,6 @@ self.importScripts('img/data.js');
 // Files to cache
 var cacheName = 'armandokun-v1';
 var appShellFiles = [
-    '/cw2_3145/js/',
     '/cw2_3145/js/vue.js',
     '/cw2_3145/js/userForm.js',
     '/cw2_3145/js/provider.js',
