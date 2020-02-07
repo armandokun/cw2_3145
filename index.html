@@ -6,10 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <link rel="stylesheet" type="text/css" href="./css/styles.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
-    <script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
-
     <script src="./js/vue.js" defer></script>
     <script src="./js/userForm.js" defer></script>
+    <script src="app.js" defer></script>
     <title>cw1_3145</title>
 </head>
 <body>
@@ -142,7 +141,7 @@
             <!-- results -->
             <div v-for='course in results' class='course'>
                 <div>
-                <img :src="'img/'+ course.topic +'.png'" alt="course.topic" width="100x100">
+                    <img :src="'img/'+ course.topic +'.png'" alt="course.topic" width="100x100">
                 </div>
                 <div>
                     <label>Topic</label>
