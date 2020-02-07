@@ -1,3 +1,8 @@
+// Service Worker init
+if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+}
+
 // Fetch all courses
 fetch("http://localhost:3000/collections/courses")
     .then(response => {

@@ -24,7 +24,6 @@ app.param('collectionName', (req, res, next, collectionName) => {
     return next()
 });
 
-
 //Express end-routes
 
 // Info message
