@@ -29,6 +29,19 @@ self.addEventListener('install', (e) => {
     );
 });
 
+// Cleans cache of unused files
+self.addEventListener('activate', (e) => {
+    e.waitUntil(
+        caches.keys().then((keyList) => {
+            return Promise.all(keyList.map((key) => {
+                if(key !== cacheName) {
+                    return caches.delete(key);
+                }
+            }));
+        })
+    );
+});
+
 // Fetching content using Service Worker
 self.addEventListener('fetch', function (e) {
     e.respondWith(
