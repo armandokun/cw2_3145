@@ -4,7 +4,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // Notifications
-var button = document.getElementById("notifications");
+const button = document.getElementById("notifications");
 button.addEventListener('click', function (e) {
     Notification.requestPermission().then(function (result) {
         if (result === 'granted') {
@@ -14,11 +14,11 @@ button.addEventListener('click', function (e) {
 });
 
 function randomNotification() {
-    var randomItem = Math.floor(Math.random() * images.length);
-    var notifTitle = images[randomItem].name;
-    var notifBody = 'Created by Armando';
-    var notifImg = 'img/' + images[randomItem].name + '.png';
-    var options = {
+    const randomItem = Math.floor(Math.random() * images.length);
+    const notifTitle = images[randomItem].name;
+    const notifBody = 'Created by Armando';
+    const notifImg = 'img/' + images[randomItem].name + '.png';
+    const options = {
         body: notifBody,
         icon: notifImg
     };
@@ -28,9 +28,9 @@ function randomNotification() {
 }
 
 // Progressive loading images
-var imagesToLoad = document.querySelectorAll('img[data-src]');
+let imagesToLoad = document.querySelectorAll('img[data-src]');
 
-var loadImages = function (image) {
+let loadImages = function (image) {
     console.log(image);
     image.setAttribute('src', image.getAttribute('data-src'));
     image.onload = function () {
@@ -40,7 +40,7 @@ var loadImages = function (image) {
 
 if ('IntersectionObserver' in window) {
     console.log('Observation is happening now...');
-    var observer = new IntersectionObserver(function (items, observer) {
+    const observer = new IntersectionObserver(function (items, observer) {
         items.forEach(function (item) {
             if (item.isIntersecting) {
                 loadImages(item.target);
