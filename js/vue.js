@@ -106,9 +106,9 @@ let resultsFromFilter = new Vue({
     },
     methods: {
         rate: (courseId, user, rating) => {
-            console.log(courseId, user, rating);
             fetch(`http://localhost:3000/collections/courses/update/${courseId}-${user}-${rating}`, {
-                method: 'PUT'
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'}
             })
                 .then(res => res.json())
                 .then(value => {

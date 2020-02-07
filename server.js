@@ -91,14 +91,6 @@ app.put('/collections/:collectionName/logout/:email', (req, res, next) => {
         })
 });
 
-// validate login by email and password
-app.put('/collections/:collectionName/:email/:password', (req, res, next) => {
-    req.collection.findOneAndUpdate({email: (req.params.email), password: (req.params.password)},
-        {$set: {on: true}})
-        .then(results => res.send(results))
-        .catch(err => res.send(err))
-});
-
 // update a course by id
 app.put('/collections/:collectionName/put/:id', (req, res, next) => {
     req.collection.updateOne({_id: mongoDB.ObjectId(req.params.id)},
@@ -108,27 +100,37 @@ app.put('/collections/:collectionName/put/:id', (req, res, next) => {
                 rating: req.body.rating, location: req.body.location
             }
         },
-        {safe: true, multi: false}, (e, result) => {
-            if (e) next(res.send(req.body));
-            res.send(req.body);
-            // res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
+        {returnOriginal: false, upsert: true}, (e, result) => {
+            if (e) next(e);
+            res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
         })
+});
+
+// reset ratings by id
+app.put('/collections/:collectionName/rating/:id', (req, res, next) => {
+    req.collection.updateOne({
+        _id: mongoDB.ObjectId(req.params.id)
+    }, {$set: {rating: []}}, (e, result) => {
+        if (e) return next(e);
+        res.send(result)
+    })
 });
 
 // update ratings by id
 app.put('/collections/:collectionName/update/:id-:user-:score', (req, res) => {
     req.collection.findOneAndUpdate({
-        _id: mongoDB.ObjectID(req.params.id),
-        "rating.user": (req.params.user)
-    }, {$set: {"rating.$.score": (req.params.score)}})
+            _id: mongoDB.ObjectID(req.params.id),
+            "rating.user": (req.params.user)
+        }, {$set: {"rating.$.score": (req.params.score)}})
         .then(results => {
             if (results.value === null) {
                 req.collection.findOneAndUpdate({
-                        _id: mongoDB.ObjectID(req.params.id),
+                        _id: mongoDB.ObjectID(req.params.id)
                     },
                     {$push: {rating: {user: (req.params.user), score: (req.params.score)}}}
                 )
                     .then(value => res.send(value))
+                    .catch(err => res.send(err))
             } else {
                 res.send(results)
             }
@@ -136,14 +138,12 @@ app.put('/collections/:collectionName/update/:id-:user-:score', (req, res) => {
         .catch(err => res.send(err));
 });
 
-// reset ratings by id
-app.put('/collections/:collectionName/rating/:id', (req, res, next) => {
-    req.collection.updateOne({
-        _id: mongoDB.ObjectID(req.params.id)
-    }, {$set: {rating: []}}, (e, result) => {
-        if (e) return next(e);
-        res.send(result)
-    })
+// validate login by email and password
+app.put('/collections/:collectionName/:email/:password', (req, res, next) => {
+    req.collection.findOneAndUpdate({email: (req.params.email), password: (req.params.password)},
+        {$set: {on: true}})
+        .then(results => res.send(results))
+        .catch(err => res.send(err))
 });
 
 // delete a course by id
