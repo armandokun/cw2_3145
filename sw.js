@@ -16,9 +16,9 @@ for (var i = 0; i < images.length; i++) {
     courseImages.push('img/' + images[i].name + '.png');
 }
 
-console.log(courseImages)
-
 var contentToCache = appShellFiles.concat(courseImages);
+
+console.log(contentToCache);
 
 self.addEventListener('install', (e) => {
     console.log('[Service Worker] Install');
