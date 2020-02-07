@@ -29,7 +29,9 @@ function randomNotification() {
 
 // Progressive loading images
 var imagesToLoad = document.querySelectorAll('img[data-src]');
+
 var loadImages = function (image) {
+    console.log(image);
     image.setAttribute('src', image.getAttribute('data-src'));
     image.onload = function () {
         image.removeAttribute('data-src');
@@ -37,6 +39,7 @@ var loadImages = function (image) {
 };
 
 if ('IntersectionObserver' in window) {
+    console.log('Observation is happening now...');
     var observer = new IntersectionObserver(function (items, observer) {
         items.forEach(function (item) {
             if (item.isIntersecting) {
