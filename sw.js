@@ -4,6 +4,9 @@ self.importScripts('img/data.js');
 var cacheName = 'armandokun-v1';
 var appShellFiles = [
     '/cw2_3145/js/',
+    '/cw2_3145/js/vue.js',
+    '/cw2_3145/js/userForm.js',
+    '/cw2_3145/js/provider.js',
     '/cw2_3145/index.html',
     '/cw2_3145/css/styles.css'
 ];
@@ -19,7 +22,7 @@ self.addEventListener('install', function (e) {
     console.log('[Service Worker] Install');
     e.waitUntil(
         caches.open(cacheName).then(function (cache) {
-            console.log('[Service Worker] Caching all: app shell and content');
+            console.log('[Service Worker: '+ cacheName +'] Caching all: app shell and content');
             return cache.addAll(contentToCache);
         })
     );
