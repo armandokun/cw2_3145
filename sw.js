@@ -1,8 +1,8 @@
 self.importScripts('img/data.js');
 
 // Files to cache
-var cacheName = 'armandokun-v1';
-var appShellFiles = [
+const cacheName = 'armandokun-v1';
+const appShellFiles = [
     '/cw2_3145/js/vue.js',
     '/cw2_3145/js/userForm.js',
     '/cw2_3145/js/provider.js',
@@ -10,12 +10,12 @@ var appShellFiles = [
     '/cw2_3145/css/styles.css'
 ];
 
-var courseImages = [];
-for (var i = 0; i < images.length; i++) {
+const courseImages = [];
+for (let i = 0; i < images.length; i++) {
     courseImages.push('img/' + images[i].name + '.png');
 }
 
-var contentToCache = appShellFiles.concat(courseImages);
+const contentToCache = appShellFiles.concat(courseImages);
 
 console.log(contentToCache);
 
@@ -25,19 +25,6 @@ self.addEventListener('install', (e) => {
         caches.open(cacheName).then((cache) => {
             console.log('[Service Worker] Caching all: app shell and content');
             return cache.addAll(contentToCache);
-        })
-    );
-});
-
-// Cleans cache of unused files
-self.addEventListener('activate', (e) => {
-    e.waitUntil(
-        caches.keys().then((keyList) => {
-            return Promise.all(keyList.map((key) => {
-                if(key !== cacheName) {
-                    return caches.delete(key);
-                }
-            }));
         })
     );
 });
@@ -57,4 +44,3 @@ self.addEventListener('fetch', function (e) {
         })
     );
 });
-
