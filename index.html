@@ -142,6 +142,9 @@
             <!-- results -->
             <div v-for='course in results' class='course'>
                 <div>
+                <img :src="'img/'+ course.topic +'.png'" alt="course.topic" width="100x100">
+                </div>
+                <div>
                     <label>Topic</label>
                     <input v-model="course.topic" :disabled="!course.isEditing" :class="{view: !course.isEditing}">
                 </div>
