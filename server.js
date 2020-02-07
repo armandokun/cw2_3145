@@ -27,7 +27,6 @@ app.param('collectionName', (req, res, next, collectionName) => {
 
 //Express end-routes
 
-
 // Info message
 app.get('/', (req, res) => {
     res.send('Select a collection, e.g., /collections/messages')
@@ -57,6 +56,7 @@ app.get('/collections/:collectionName/:email', (req, res, next) => {
     })
 });
 
+// get course by id
 app.get('/collections/:collectionName/get/:id', (req, res, next) => {
     req.collection.find(mongoDB.ObjectId(req.params.id)).toArray((e, result) => {
         if (e) return next(e);
@@ -80,6 +80,17 @@ app.get('/collections/:collectionName/register/:email', (req, res, next) => {
     })
 });
 
+// update a user by email to logout
+app.put('/collections/:collectionName/logout/:email', (req, res, next) => {
+    req.collection.updateOne({email: (req.params.email)},
+        {$set: {on: false}},
+        {returnOriginal: false, upsert: true},
+        (e, result) => {
+            if (e) return next(e);
+            res.send(result);
+        })
+});
+
 // validate login by email and password
 app.put('/collections/:collectionName/:email/:password', (req, res, next) => {
     req.collection.findOneAndUpdate({email: (req.params.email), password: (req.params.password)},
@@ -88,48 +99,23 @@ app.put('/collections/:collectionName/:email/:password', (req, res, next) => {
         .catch(err => res.send(err))
 });
 
-// update a user by email
-app.put('/collections/:collectionName/:email', (req, res, next) => {
-    req.collection.updateOne({email: (req.params.email)},
-        {$set: req.body},
-        {safe: true, multi: false}, (e, result) => {
-            if (e) return next(e);
-            res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
-        })
-});
-
 // update a course by id
 app.put('/collections/:collectionName/put/:id', (req, res, next) => {
-    req.collection.updateOne({_id: mongoDB.ObjectID(req.params.id)},
+    req.collection.updateOne({_id: mongoDB.ObjectId(req.params.id)},
         {
             $set: {
                 topic: req.body.topic, price: req.body.price, about: req.body.about,
-                rankings: req.body.rankings, location: req.body.location
+                rating: req.body.rating, location: req.body.location
             }
         },
         {safe: true, multi: false}, (e, result) => {
-            if (e) return next(e);
-            res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
+            if (e) next(res.send(req.body));
+            res.send(req.body);
+            // res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
         })
 });
 
-// delete a course by id
-app.delete('/collections/:collectionName/:id', (req, res, next) => {
-    req.collection.deleteOne({_id: mongoDB.ObjectID(req.params.id)}, (e, result) => {
-        if (e) return next(e);
-        res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
-    })
-});
-
-// delete a user by email
-app.delete('/collections/:collectionName/:email', (req, res, next) => {
-    req.collection.deleteOne({email: (req.params.email)}, (e, result) => {
-        if (e) return next(e);
-        res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
-    })
-});
-
-// update rankings by id
+// update ratings by id
 app.put('/collections/:collectionName/update/:id-:user-:score', (req, res) => {
     req.collection.findOneAndUpdate({
         _id: mongoDB.ObjectID(req.params.id),
@@ -157,6 +143,22 @@ app.put('/collections/:collectionName/rating/:id', (req, res, next) => {
     }, {$set: {rating: []}}, (e, result) => {
         if (e) return next(e);
         res.send(result)
+    })
+});
+
+// delete a course by id
+app.delete('/collections/:collectionName/:id', (req, res, next) => {
+    req.collection.deleteOne({_id: mongoDB.ObjectID(req.params.id)}, (e, result) => {
+        if (e) return next(e);
+        res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
+    })
+});
+
+// delete a user by email
+app.delete('/collections/:collectionName/:email', (req, res, next) => {
+    req.collection.deleteOne({email: (req.params.email)}, (e, result) => {
+        if (e) return next(e);
+        res.send((result.result.n === 1) ? {msg: 'success'} : {msg: 'error'})
     })
 });
 

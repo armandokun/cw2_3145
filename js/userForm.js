@@ -12,37 +12,21 @@ let userForm = new Vue({
         logIn: function (e) {
             e.preventDefault();
 
-            const logInForm = {
-                email: this.email,
-                password: this.password,
-                on: this.on
-            };
-
-            fetch(`http://localhost:3000/collections/users/${logInForm.email}/${logInForm.password}`, {method: 'PUT'})
-                .then(res => {
-                    return res.json()
-                })
-                .then(() => {
-                    // logged in!
-                    logInForm.on = true;
-
-                    fetch(`http://localhost:3000/collections/users/${logInForm.email}`, {
-                        method: 'PUT',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(logInForm)
-                    })
-                        .then(res => {
-                            return res.json()
-                        })
-                        .then(() => {
-                            window.location.href = "index.html";
-                        });
+            fetch(`http://localhost:3000/collections/users/${this.email}/${this.password}`,
+                {method: 'PUT'})
+                .then(res => res.json())
+                .then(val => {
+                    console.log(val);
+                    if (val.value === null) {
+                        alert('The email or password is incorrect')
+                    } else {
+                        window.location.href = "index.html"
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
                     alert('The email or password is incorrect')
                 })
-
         },
         signUp: function (e) {
             e.preventDefault();
@@ -55,9 +39,7 @@ let userForm = new Vue({
 
             // email validation
             fetch(`http://localhost:3000/collections/users/register/${form.email}`)
-                .then(res => {
-                    return res.json();
-                })
+                .then(res => res.json())
                 .then(() => {
                     // inform the user
                     alert('This email is already registered');
@@ -102,13 +84,11 @@ Vue.component("page-header", {
     },
     methods: {
         logOut: function () {
-            fetch(`http://localhost:3000/collections/users/${this.email}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({on: false})
+            fetch(`http://localhost:3000/collections/users/logout/${this.email}`, {
+                method: 'PUT'
             })
                 .then(res => {
-                    return res.json();
+                    console.log(res.json());
                 })
                 .then(() => {
                     window.location.href = "index.html";

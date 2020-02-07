@@ -81,7 +81,6 @@ let providerView = new Vue({
             course.isEditing = true;
         },
         saveCourse: function (course) {
-
             fetch(`http://localhost:3000/collections/courses/put/${course._id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
