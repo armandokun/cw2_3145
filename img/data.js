@@ -35,4 +35,7 @@ let images = [
     {
         name: "Violin"
     },
+    {
+        name: "placeholder"
+    }
 ];
