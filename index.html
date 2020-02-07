@@ -180,7 +180,7 @@
                     </div>
                     <div v-else>
                         <select>
-                            <option v-for="(score, user) in course.rating">{{user}}: {{score}}</option>
+                            <option v-for="userScore in course.rating">{{userScore.user}}: {{userScore.score}}</option>
                         </select>
                     </div>
                     <button @click="resetRating(course._id)">Reset</button>
