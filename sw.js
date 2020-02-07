@@ -17,16 +17,18 @@ for (let i = 0; i < images.length; i++) {
 
 const contentToCache = appShellFiles.concat(courseImages);
 
-console.log(contentToCache);
-
 self.addEventListener('install', (e) => {
-    console.log('[Service Worker] Install');
+    console.log('[Service Worker] Installing');
     e.waitUntil(
         caches.open(cacheName).then((cache) => {
             console.log('[Service Worker] Caching all: app shell and content');
             return cache.addAll(contentToCache);
         })
     );
+});
+
+self.addEventListener('activate', (e) => {
+    console.log('[Service Worker] Activated');
 });
 
 // Fetching content using Service Worker
