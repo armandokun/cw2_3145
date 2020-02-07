@@ -29,6 +29,3 @@ function displayNotification(title) {
 }
 
 // displayNotification('Test1');
-
-
-
