@@ -144,7 +144,7 @@
             <!-- results -->
             <div v-for='course in results' class='course'>
                 <div>
-                    <img src="img/placeholder.png" data-src="'img/'+ course.topic +'.png'" alt="course.topic"
+                    <img src="img/placeholder.png" :data-src="'img/'+ course.topic +'.png'" :alt="course.topic"
                          width="100x100">
                 </div>
                 <div>
