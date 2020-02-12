@@ -145,7 +145,7 @@
             <!-- results -->
             <div v-for='course in results' class='course'>
                 <div>
-                    <img src="img/placeholder.png" :data-src="'img/'+ course.topic +'.png'" :alt="course.topic"
+                    <img :src="'img/'+ course.topic +'.png'" :alt="course.topic"
                          width="100x100">
                 </div>
                 <div>
@@ -198,7 +198,7 @@
 </div>
 </body>
 <script src="app.js" defer></script>
-<script defer>
+<script>
 
     // Loading on demand
     let imagesToLoad = document.querySelectorAll('img[data-src]');
